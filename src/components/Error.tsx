@@ -1,4 +1,7 @@
-import { bindEvents, handleDefaultEvent } from '@bearei/react-util/lib/event';
+import {
+  bindEvents,
+  handleDefaultEvent,
+} from '@bearei/react-util/lib/commonjs/event';
 import type {
   DetailedHTMLProps,
   HTMLAttributes,
@@ -12,7 +15,7 @@ import type { GestureResponderEvent, ViewProps } from 'react-native';
 /**
  * Base error props
  */
-export interface BaseErrorProps<T = HTMLElement>
+export interface BaseErrorProps<T>
   extends Omit<
     DetailedHTMLProps<HTMLAttributes<T>, T> & ViewProps,
     'title' | 'onClick' | 'onTouchEnd' | 'onPress'
@@ -23,24 +26,29 @@ export interface BaseErrorProps<T = HTMLElement>
   ref?: Ref<T>;
 
   /**
-   * Default diagram of error page
+   * Default image of error page
    */
-  default?: React.ReactNode;
+  defaultImage?: ReactNode;
 
   /**
    * Error page title
    */
-  title?: React.ReactNode;
+  title?: ReactNode;
 
   /**
    * Error page alert message
    */
-  tip?: React.ReactNode;
+  tip?: ReactNode;
 
   /**
    * Error page custom button
    */
-  button?: React.ReactNode;
+  button?: ReactNode;
+
+  /**
+   * Error page button text
+   */
+  buttonText?: string;
 
   /**
    * This function is called when button is clicked
@@ -70,13 +78,13 @@ export interface ErrorProps<T> extends BaseErrorProps<T> {
   /**
    * Render the error container
    */
-  renderContainer: (props: ErrorContainerProps) => ReactNode;
+  renderContainer: (props: ErrorContainerProps<T>) => ReactNode;
 }
 
 /**
  * Error children props
  */
-export interface ErrorChildrenProps extends Omit<BaseErrorProps, 'ref'> {
+export interface ErrorChildrenProps<T> extends Omit<BaseErrorProps<T>, 'ref'> {
   /**
    * Component unique ID
    */
@@ -84,12 +92,12 @@ export interface ErrorChildrenProps extends Omit<BaseErrorProps, 'ref'> {
   children?: ReactNode;
 }
 
-export type ErrorMainProps<T> = ErrorChildrenProps &
+export type ErrorMainProps<T> = ErrorChildrenProps<T> &
   Pick<BaseErrorProps<T>, 'ref'>;
 
-export type ErrorContainerProps = ErrorChildrenProps;
+export type ErrorContainerProps<T> = ErrorChildrenProps<T>;
 
-const Error = <T extends HTMLElement>(props: ErrorProps<T>) => {
+const Error = <T extends HTMLElement = HTMLElement>(props: ErrorProps<T>) => {
   const {
     ref,
     onClick,
@@ -122,8 +130,6 @@ const Error = <T extends HTMLElement>(props: ErrorProps<T>) => {
 
     return event[key as keyof typeof event];
   };
-
-  console.info(bindEvents(events, handleCallback));
 
   const main = renderMain({
     ...childrenProps,
