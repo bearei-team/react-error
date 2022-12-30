@@ -1,8 +1,9 @@
-import React, { FC, ReactElement } from 'react';
-import { render, RenderOptions, queries } from '@testing-library/react';
-import * as customQueries from './customQueries';
+import { queries, render, RenderOptions } from '@testing-library/react';
+import type React from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
+import * as customQueries from './custom_queries';
 
-const AllTheProviders: FC<{ children: React.ReactNode }> = ({ children }) => {
+const AllTheProviders: FC<{ children: ReactNode }> = ({ children }) => {
   return <>{children}</>;
 };
 
