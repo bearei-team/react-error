@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import Error from '../../src/components/Error';
-import { render } from '../utils/test_utils';
+import { render } from '../utils/test-utils';
 
 describe('test/components/Error.test.ts', () => {
   test('It should be a render error', async () => {
